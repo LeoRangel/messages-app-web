@@ -1,6 +1,26 @@
+import { useEffect, useState } from "react";
+import { api } from "../../services/api"
+
 import styles from './styles.module.scss';
 
+type Message = {
+    id: string,
+    text: string,
+    user: {
+        name: string,
+        avatar_url: string
+    }
+}
+
 export function MessageList() {
+
+    const [messages, setMessages] = useState<Message[]>([]);
+
+    useEffect(() => {
+        api.get<Message[]>('messages/last3').then(response => {
+            setMessages(response.data)
+        })
+    }, [])
 
     return (
         <div className={styles.messageListWrapper}>
@@ -23,39 +43,21 @@ export function MessageList() {
 
             <ul className={styles.messageList}>
 
-                <li key="01" className={styles.message}>
-                    <p className={styles.messageContent}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sollicitudin, enim eu accumsan tincidunt, lorem nunc pulvinar nulla, non ullamcorper justo turpis quis velit.
-                    </p>
-                    <div className={styles.messageUser}>
-                        <div className={styles.userImage}>
-                            <img src="https://github.com/LeoRangel.png" alt="Message" />
-                        </div>
-                        <span>Leo Rangel</span>
-                    </div>
-                </li>
-                <li key="02" className={styles.message}>
-                    <p className={styles.messageContent}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sollicitudin, enim eu accumsan tincidunt, lorem nunc pulvinar nulla, non ullamcorper justo turpis quis velit.
-                    </p>
-                    <div className={styles.messageUser}>
-                        <div className={styles.userImage}>
-                            <img src="https://github.com/LeoRangel.png" alt="Message" />
-                        </div>
-                        <span>Leo Rangel</span>
-                    </div>
-                </li>
-                <li key="03" className={styles.message}>
-                    <p className={styles.messageContent}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sollicitudin, enim eu accumsan tincidunt, lorem nunc pulvinar nulla, non ullamcorper justo turpis quis velit.
-                    </p>
-                    <div className={styles.messageUser}>
-                        <div className={styles.userImage}>
-                            <img src="https://github.com/LeoRangel.png" alt="Message" />
-                        </div>
-                        <span>Leo Rangel</span>
-                    </div>
-                </li>
+                {messages.map(message => {
+                    return (
+                        <li key={message.id} className={styles.message}>
+                            <p className={styles.messageContent}>
+                                {message.text}
+                            </p>
+                            <div className={styles.messageUser}>
+                                <div className={styles.userImage}>
+                                    <img src={message.user.avatar_url} alt={message.user.name} />
+                                </div>
+                                <span>{message.user.name}</span>
+                            </div>
+                        </li>
+                    )
+                })}
 
             </ul>
         </div>

@@ -10,3 +10,6 @@ yarn add sass
 
 - Instalar lib de icons
 yarn add react-icons
+
+- Instalar lib para acessar api's
+yarn add axios
