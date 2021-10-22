@@ -11,7 +11,7 @@ type User = {
 type AuthContextData = {
     user: User | null,
     signInUrl: string,
-    singOut: () => void,
+    signOut: () => void,
 }
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -46,10 +46,13 @@ export function AuthProvider(props: AuthProviderProps) {
 
         localStorage.setItem('@MessagesApp:token', token);
 
+        // Enviar token para todas as requisições feitas a partir do login
+        api.defaults.headers.common.authorization = `Bearer ${token}`;
+
         setUser(user)
     }
 
-    function singOut() {
+    function signOut() {
         setUser(null);
         localStorage.removeItem('@MessagesApp:token');
     }
@@ -80,7 +83,7 @@ export function AuthProvider(props: AuthProviderProps) {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ signInUrl, user, singOut }}>
+        <AuthContext.Provider value={{ signInUrl, user, signOut }}>
             {props.children}
         </AuthContext.Provider>
     )
