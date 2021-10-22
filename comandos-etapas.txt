@@ -4,3 +4,9 @@ yarn create vite messages-app-web --template react-ts
 
 - Instalar dependências
 yarn
+
+- Instalar pré processador de css
+yarn add sass
+
+- Instalar lib de icons
+yarn add react-icons
