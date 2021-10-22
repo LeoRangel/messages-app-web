@@ -1,0 +1,6 @@
+
+- Criar projeto
+yarn create vite messages-app-web --template react-ts
+
+- Instalar dependências
+yarn
