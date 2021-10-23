@@ -13,3 +13,6 @@ yarn add react-icons
 
 - Instalar lib para acessar api's
 yarn add axios
+
+- Instalar cliente do web socket para ouvir mensagens em tempo real
+yarn add socket.io-client
